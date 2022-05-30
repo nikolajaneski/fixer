@@ -28,6 +28,11 @@ Create copy of .env file and add DB information for connection
 cp .env.example .env
 ```
 
+Add fixer api key in .env file
+```
+FIXER_API_KEY=g9jdVb3hR88nl7Vnq0qSt2Q6pXFqdvaa // update with your api key or use mine for testing
+```
+
 Generate app encryption key
 ```
 php artisan key:generate
