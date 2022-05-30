@@ -1,5 +1,5 @@
 
-## GIGS API
+## FIXER API
 
 RESTfull API for converting currencies platform build in Laravel using Laravel Passport for authentication and Fixer for daily rates :
 
