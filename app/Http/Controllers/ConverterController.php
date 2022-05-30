@@ -7,12 +7,33 @@ use App\Models\ResponseData;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ConverterController extends Controller
 {
     public function convert(Request $request)
     {
         try {
+
+            $validator = Validator::make(
+                $request->all(), 
+                [
+                    'from' => 'required',
+                    'to' => 'required',
+                    'value' => 'required'
+                ]
+            );
+
+            if($validator->fails()) {
+                $responseData = [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ];
+
+                ResponseData::create(['data' => json_encode($responseData)]);
+
+                return response()->json($responseData, 422);
+            }
 
             $from = $request->from;
             $to = $request->to;
@@ -43,13 +64,14 @@ class ConverterController extends Controller
             return response()->json($responseData, 200);
 
         } catch (\Exception $e) {
+            $responseData = [                 
+                'success' => false,
+                'errorMessage' => $e->getMessage()
+            ];
 
-            return response()->json([
-                            'success' => false,
-                            'errorMessage' => $e->getMessage()
-                        ],
-                        422
-                    );
+            ResponseData::create(['data' => json_encode($responseData)]);
+
+            return response()->json($responseData, 422);
 
         }
 
