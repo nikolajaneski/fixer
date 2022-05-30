@@ -46,8 +46,8 @@ class UpdateRates extends Command
 
         foreach($rates as $key => $rate) {
             Rates::updateOrCreate(
-                ['currency' => $key, 'rate' => round($rate, 4)],
-                ['date' => $response['date']]
+                ['rate' => round($rate, 4)],
+                ['currency' => $key, 'date' => $response['date']]
             );
         }
 
